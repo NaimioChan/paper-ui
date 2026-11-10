@@ -1,7 +1,6 @@
 {
   "name": "paper-ui",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "description": "纸感直角设计系统 — Vue 3 组件库",
   "files": [
@@ -16,18 +15,19 @@
       "import": "./dist/paper-ui.js"
     },
     "./style.css": "./dist/paper-ui.css",
-    "./tokens.css": "./src/styles/tokens.css",
-    "./base.css": "./src/styles/base.css"
+    "./tokens.css": "./dist/tokens.css",
+    "./base.css": "./dist/base.css"
   },
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
     "dev": "vite --config vite.preview.config.ts",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-styles.mjs",
     "typecheck": "vue-tsc --noEmit",
     "check:style": "node scripts/check-style.mjs",
-    "test": "node scripts/check-style.mjs && vitest run"
+    "test": "node scripts/check-style.mjs && vitest run",
+    "prepublishOnly": "npm test && npm run build"
   },
   "peerDependencies": {
     "vue": "^3.5.0"
@@ -43,5 +43,26 @@
     "vitest": "^5.1.0",
     "vue": "^3.5.45",
     "vue-tsc": "^3.3.14"
+  },
+  "license": "MIT",
+  "author": "Naimio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NaimioChan/paper-ui.git"
+  },
+  "homepage": "https://github.com/NaimioChan/paper-ui",
+  "bugs": {
+    "url": "https://github.com/NaimioChan/paper-ui/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "component-library",
+    "design-system",
+    "css-variables"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

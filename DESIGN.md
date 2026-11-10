@@ -219,7 +219,20 @@ dist/paper-ui.css     全部样式
 dist/index.d.ts       类型入口
 ```
 
-`exports` 暴露主入口、`./style.css`、`./tokens.css`、`./base.css`。消费方式为 `file:` 本地依赖或 npm 安装。
+`exports` 暴露四个入口：
+
+| 入口 | 文件 | 用途 |
+|---|---|---|
+| `.` | `dist/paper-ui.js` + `dist/index.d.ts` | 组件与纯逻辑 |
+| `./style.css` | `dist/paper-ui.css` | 全部样式（令牌 + 基础 + 组件） |
+| `./tokens.css` | `dist/tokens.css` | 只要令牌，自己写样式 |
+| `./base.css` | `dist/base.css` | 重置与排版 |
+
+`tokens.css` 与 `base.css` 由 `scripts/copy-styles.mjs` 在构建后复制进 `dist/`，因为 `files` 只打包 `dist/`。
+
+发布流程：`npm run build` 产出 dist，`prepublishOnly` 内联执行 `npm test && npm run build`，`npm publish` 时自动跑测试与构建。`files` 为白名单，只打包 `dist/`；`README.md` 与 `LICENSE` 由 npm 自动纳入。
+
+安装方式三选：`npm i paper-ui`（已发布）、`npm i ./paper-ui-x.y.z.tgz`（tarball，真实解包）、`file:../paper-ui`（软链，开发期即时生效）。
 
 ## 9. 测试
 

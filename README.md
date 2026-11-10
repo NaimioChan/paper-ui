@@ -11,11 +11,21 @@ npm test            # 视觉禁令检查 + 全部单测
 npm run build       # 产出 dist/
 ```
 
-## 使用
+## 安装
+
+```bash
+npm i paper-ui            # 发布后
+npm i ../paper-ui         # 或从本地打包安装
+npm i ./paper-ui-0.1.0.tgz
+```
 
 ```json
 { "dependencies": { "paper-ui": "file:../paper-ui" } }
 ```
+
+`file:` 依赖是软链，改动后立刻生效，适合同机开发；tarball 安装是真实解包，行为与线上一致。
+
+## 使用
 
 ```ts
 // main.ts
