@@ -265,7 +265,7 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
       <PaperStack :gap="4" class="pv-after">
         <p class="paper-meta">PaperMega 变体</p>
         <PaperStack direction="horizontal" :gap="6" align="end">
-          <PaperMega text="BOLD" tone="ink" offset />
+          <PaperMega text="BOLD" tone="ink" />
           <PaperMega text="OUT" tone="outline" />
           <PaperMega text="V" tone="orange" orientation="vertical" />
         </PaperStack>
