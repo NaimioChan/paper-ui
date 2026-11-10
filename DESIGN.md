@@ -118,7 +118,13 @@ src/lib/*.ts                无 DOM 依赖的纯逻辑
 
 **PaperInput** — 下边框输入框。给 `rows` 渲染 `textarea`。`mono` 用于位对齐字段。
 
-**PaperSelect** — 原生 `select` 包样式。`options` 传数组或用插槽。`placeholder` 渲染为禁用的空项。
+**PaperSelect** — 自绘下拉选择。`options` 为 `{ value, label, disabled? }` 数组，`placeholder` 是未选中时的占位文案，`panelMaxHeight` 控制面板最大高度。
+
+触发器是 `role="combobox"` 的按钮，带 `aria-expanded` 与 `aria-controls`；面板是 `role="listbox"` 的列表，每项 `role="option"` 并带 `aria-selected` 与 `aria-disabled`。键盘支持 `ArrowDown`/`ArrowUp` 在可用项间循环（跳过禁用项）、`Home`/`End` 跳首尾、`Enter` 或空格选中、`Esc` 收起、`Tab` 收起并移出。
+
+点击外部关闭，收起后焦点留在触发器。触发器下方空间不足 `panelMaxHeight` 加 16px 时改为向上展开。传入 `name` 时渲染同名隐藏域，供原生表单提交。
+
+选择原生 `<select>` 的下拉列表由系统渲染，CSS 无法控制其外观，因此改为自绘。
 
 **PaperCheckbox / PaperRadio** — 原生控件隐藏，可视部分为 16px 直角方块，勾与内点均为方形。
 

@@ -79,34 +79,101 @@ describe('PaperInput', () => {
 })
 
 describe('PaperSelect', () => {
-  it('placeholder 渲染为一个禁用的空选项', () => {
-    const wrapper = mount(PaperSelect, {
-      props: { placeholder: '选择学期', options: [{ value: 'a', label: '2025 秋' }] },
-    })
-    const options = wrapper.findAll('option')
-    expect(options).toHaveLength(2)
-    expect(options[0].text()).toBe('选择学期')
-    expect(options[0].attributes('disabled')).toBeDefined()
+  const options = [
+    { value: 1, label: '干净' },
+    { value: 2, label: '有笔记' },
+    { value: 3, label: '缺页', disabled: true },
+  ]
+
+  it('未打开时只渲染触发器，不渲染选项列表', () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    expect(wrapper.find('[role="combobox"]').exists()).toBe(true)
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
   })
 
-  it('选中值与 options 对应', async () => {
-    const wrapper = mount(PaperSelect, {
-      props: {
-        modelValue: null,
-        options: [
-          { value: 1, label: '干净' },
-          { value: 2, label: '有笔记' },
-        ],
-      },
-    })
-    await wrapper.find('select').setValue('2')
-    // option 的 value 绑定的是数字 2，Vue 会按选定选项的原始值回传
+  it('触发器带 aria-haspopup 与收起状态', () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    const trigger = wrapper.find('[role="combobox"]')
+    expect(trigger.attributes('aria-haspopup')).toBe('listbox')
+    expect(trigger.attributes('aria-expanded')).toBe('false')
+  })
+
+  it('点击展开后渲染全部选项', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    await wrapper.find('[role="combobox"]').trigger('click')
+    const items = wrapper.findAll('[role="option"]')
+    expect(items).toHaveLength(3)
+    expect(items[0].text()).toContain('干净')
+  })
+
+  it('未选中时显示占位文案', () => {
+    const wrapper = mount(PaperSelect, { props: { options, placeholder: '请选择' } })
+    expect(wrapper.find('.paper-select__value').text()).toBe('请选择')
+  })
+
+  it('选中项显示在触发器上', () => {
+    const wrapper = mount(PaperSelect, { props: { options, modelValue: 2 } })
+    expect(wrapper.find('.paper-select__value').text()).toBe('有笔记')
+  })
+
+  it('点击选项回传原始值并收起', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    await wrapper.find('[role="combobox"]').trigger('click')
+    await wrapper.findAll('[role="option"]')[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([2])
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
   })
 
-  it('未选且提供 placeholder 时显示占位色', () => {
-    const wrapper = mount(PaperSelect, { props: { placeholder: '请选择' } })
-    expect(wrapper.find('.paper-select--placeholder').exists()).toBe(true)
+  it('禁用项不可选', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    await wrapper.find('[role="combobox"]').trigger('click')
+    await wrapper.findAll('[role="option"]')[2].trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
+
+  it('禁用项带 aria-disabled', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    await wrapper.find('[role="combobox"]').trigger('click')
+    expect(wrapper.findAll('[role="option"]')[2].attributes('aria-disabled')).toBe('true')
+  })
+
+  it('方向键在可用项之间循环，跳过禁用项', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    const trigger = wrapper.find('[role="combobox"]')
+    await trigger.trigger('keydown', { key: 'ArrowDown' })
+    await trigger.trigger('keydown', { key: 'ArrowDown' })
+    expect(wrapper.findAll('[role="option"]')[1].classes()).toContain('is-active')
+    // 第二项再下移应回到首项，跳过末尾禁用项
+    await trigger.trigger('keydown', { key: 'ArrowDown' })
+    expect(wrapper.findAll('[role="option"]')[0].classes()).toContain('is-active')
+  })
+
+  it('Enter 选中当前高亮项', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    const trigger = wrapper.find('[role="combobox"]')
+    await trigger.trigger('keydown', { key: 'ArrowDown' })
+    await trigger.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([1])
+  })
+
+  it('Esc 收起面板', async () => {
+    const wrapper = mount(PaperSelect, { props: { options } })
+    const trigger = wrapper.find('[role="combobox"]')
+    await trigger.trigger('click')
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(true)
+    await trigger.trigger('keydown', { key: 'Escape' })
+    expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
+  })
+
+  it('空选项数组时给出空态', async () => {
+    const wrapper = mount(PaperSelect, { props: { options: [] } })
+    await wrapper.find('[role="combobox"]').trigger('click')
+    expect(wrapper.find('.paper-select__empty').text()).toBe('无选项')
+  })
+
+  it('错误态传给外壳', () => {
+    const wrapper = mount(PaperSelect, { props: { options, error: '必选' } })
+    expect(wrapper.find('.paper-field--invalid').exists()).toBe(true)
   })
 })
 

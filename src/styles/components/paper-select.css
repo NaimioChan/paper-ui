@@ -1,36 +1,136 @@
 .paper-select {
   position: relative;
+  min-width: 0;
+}
+
+/* 触发区：沿用 .paper-control 的下边框造型，文字与标记两端对齐 */
+.paper-select__trigger {
   display: flex;
   align-items: center;
-}
-
-.paper-select__native {
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding-right: 0;
+  text-align: start;
   cursor: pointer;
-  padding-right: var(--space-6);
 }
 
-.paper-select__native option {
-  background-color: var(--paper);
-  color: var(--ink);
+.paper-select__trigger:disabled {
+  cursor: not-allowed;
 }
 
-.paper-select--placeholder .paper-select__native {
+.paper-select__value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paper-select--placeholder .paper-select__value {
   color: var(--ink-soft);
 }
 
+/* 折角标记：两像素直角折线，打开时向下翻 */
 .paper-select__mark {
-  position: absolute;
-  right: var(--space-2);
-  top: 50%;
+  flex: none;
   width: 7px;
   height: 7px;
-  margin-top: -5px;
+  margin-top: -4px;
   border-right: var(--line-bold) solid var(--ink);
   border-bottom: var(--line-bold) solid var(--ink);
   transform: rotate(45deg);
+  transition: transform var(--dur-fade) var(--ease-out), margin-top var(--dur-fade) var(--ease-out);
   pointer-events: none;
 }
 
-.paper-select__native:disabled + .paper-select__mark {
+.paper-select--open .paper-select__mark {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+
+.paper-select--disabled .paper-select__mark {
   border-color: var(--line);
+}
+
+/* 面板：直角、一像素描边、墨色标题分隔，不加圆角不加阴影 */
+.paper-select__panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--space-1));
+  left: 0;
+  right: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background-color: var(--paper);
+  border: var(--line-hair) solid var(--ink);
+}
+
+/* 上方空间不足时改为向上展开，底边贴住触发器 */
+.paper-select--drop-up .paper-select__panel {
+  top: auto;
+  bottom: calc(100% + var(--space-1));
+}
+
+.paper-select__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.paper-select__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--line-hair) solid var(--line);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.paper-select__option:last-child {
+  border-bottom: 0;
+}
+
+.paper-select__option.is-active {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.paper-select__option.is-selected {
+  font-weight: var(--weight-semibold);
+}
+
+.paper-select__option.is-disabled {
+  color: var(--line);
+  cursor: not-allowed;
+}
+
+.paper-select__option.is-disabled.is-active {
+  background-color: var(--transparent);
+  color: var(--line);
+}
+
+.paper-select__option-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 已选项标记：直角小方块，与选择控件的形状一致 */
+.paper-select__tick {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background-color: currentColor;
+}
+
+.paper-select__empty {
+  padding: var(--space-4);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  color: var(--ink-soft);
 }
