@@ -36,8 +36,10 @@ npm run dev               # 组件预览页 :5180
 9. 新增组件后同步 `src/index.ts` 的导出与注册表、`preview/App.vue` 的示例区块、`DESIGN.md` 的组件清单。
 10. 多根节点的组件（如带 Teleport 遮罩的侧栏）不能用 `wrapper.classes()` / `wrapper.attributes()` 断言，改查 `.find()` 或 `document.body`。
 11. 改完必跑 `npm test` 与 `npm run typecheck`，两个都过才算完。
-12. 注释只写接口契约与行为，不写动机、历史与设计意图。
-13. 文档不用口语、不用第二人称，统一无人称陈述或祈使句。
+12. 令牌层必须包在 `:where(:root)` 里，特异性为 0。这样消费方在任意位置覆盖变量都生效，不受加载顺序影响。新增令牌时不要另起裸 `:root` 块。
+13. 字体名只出现在 `tokens.css` 的 `--font-sans` / `--font-mono` 里，组件 CSS 与 `<template>` 不得写字体名。
+14. 注释只写接口契约与行为，不写动机、历史与设计意图。
+15. 文档不用口语、不用第二人称，统一无人称陈述或祈使句。
 
 ## 模块导航
 

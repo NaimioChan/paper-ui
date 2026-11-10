@@ -1,4 +1,6 @@
-:root {
+/* 令牌层用 :where() 包裹，特异性为 0。
+   消费方在任意位置写 :root 覆盖变量都会生效，不受样式表加载顺序影响。 */
+:where(:root) {
   color-scheme: light;
 
   /* 色 */
@@ -118,7 +120,7 @@
 }
 
 @media (max-width: 640px) {
-  :root {
+  :where(:root) {
     --layout-gutter: 20px;
     --grid-gap: 16px;
     --section-gap: 56px;
@@ -128,7 +130,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root {
+  :where(:root) {
     --dur-fade: 0ms;
     --dur-sweep: 0ms;
     --dur-slow: 0ms;
