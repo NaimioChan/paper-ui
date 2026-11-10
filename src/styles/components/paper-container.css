@@ -1,0 +1,27 @@
+/* 版心：最大宽度 + 左右留白。栅格与色块放在里面。 */
+
+.paper-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--layout-gutter);
+}
+
+.paper-container--flush {
+  padding-inline: 0;
+}
+
+.paper-container--narrow {
+  max-width: calc(var(--layout-narrow) + var(--layout-gutter) * 2);
+}
+
+.paper-container--default {
+  max-width: calc(var(--layout-max) + var(--layout-gutter) * 2);
+}
+
+.paper-container--wide {
+  max-width: calc(var(--layout-wide) + var(--layout-gutter) * 2);
+}
+
+.paper-container--full {
+  max-width: none;
+}

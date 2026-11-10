@@ -1,0 +1,28 @@
+/* 输入框只需补充等宽字与文本域的额外留白，主体造型来自 .paper-control。 */
+
+.paper-input--mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+textarea.paper-control {
+  resize: vertical;
+  min-height: calc(var(--text-body) * 4);
+  padding-top: var(--space-2);
+  line-height: var(--leading-body);
+}
+
+textarea.paper-control:focus-visible {
+  padding-bottom: var(--space-2);
+}
+
+.paper-input--mono[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.paper-input--mono[type='number']::-webkit-outer-spin-button,
+.paper-input--mono[type='number']::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}

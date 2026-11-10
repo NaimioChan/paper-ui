@@ -1,0 +1,104 @@
+/* 按钮：直角、一像素边框、悬停反转颜色。不做位移与缩放。 */
+
+.paper-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 14px 28px;
+  border: var(--line-hair) solid var(--ink);
+  border-color: var(--ink);
+  background-color: var(--transparent);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-button);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fade) var(--ease-out),
+    border-color var(--dur-fade) var(--ease-out),
+    color var(--dur-fade) var(--ease-out),
+    opacity var(--dur-fade) var(--ease-out);
+}
+
+.paper-button--solid {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.paper-button--outline:hover,
+.paper-button--outline:focus-visible {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.paper-button--solid:hover,
+.paper-button--solid:focus-visible {
+  background-color: var(--green);
+  border-color: var(--green);
+  color: var(--paper);
+}
+
+.paper-button--ghost {
+  border-color: var(--transparent);
+  padding-inline: var(--space-2);
+  text-decoration: underline;
+  text-decoration-thickness: var(--line-hair);
+  text-underline-offset: 0.24em;
+  color: var(--ink-soft);
+}
+
+.paper-button--ghost:hover,
+.paper-button--ghost:focus-visible {
+  background-color: var(--transparent);
+  color: var(--ink);
+}
+
+.paper-button--sm {
+  padding: 9px 18px;
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+}
+
+.paper-button--block {
+  width: 100%;
+}
+
+.paper-button:disabled {
+  border-color: var(--line);
+  background-color: var(--transparent);
+  color: var(--line);
+  cursor: not-allowed;
+}
+
+.paper-button--solid:disabled {
+  background-color: var(--line);
+  border-color: var(--line);
+  color: var(--paper);
+}
+
+.paper-button.is-loading {
+  cursor: progress;
+}
+
+.paper-button__pulse {
+  width: 8px;
+  height: 8px;
+  background-color: currentColor;
+  animation: paper-button-pulse 1.2s var(--ease-out) infinite;
+}
+
+@keyframes paper-button-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}

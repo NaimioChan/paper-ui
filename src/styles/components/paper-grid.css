@@ -1,0 +1,20 @@
+/* 十二栅格。列数由 PaperGrid 的 columns 覆盖，单元格通过 PaperCell 占列。 */
+
+.paper-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols, 12), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  row-gap: var(--grid-row-gap, var(--grid-gap));
+  align-items: start;
+}
+
+.paper-cell {
+  grid-column: var(--cell-start, auto) / span var(--cell-span, 12);
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .paper-cell {
+    grid-column: auto / span var(--cell-span-sm, 12);
+  }
+}

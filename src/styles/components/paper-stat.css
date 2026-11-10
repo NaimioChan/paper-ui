@@ -1,0 +1,95 @@
+/* 统计块：四宫格式排版，格子之间用一像素线分隔。
+   反色版本是墨底纸黄字，作为首页与书况摘要的信息块。 */
+
+.paper-stat-group {
+  display: grid;
+  grid-template-columns: repeat(var(--stat-cols, 4), minmax(0, 1fr));
+  background-color: var(--paper);
+  color: var(--ink);
+  border: var(--line-hair) solid var(--line);
+}
+
+.paper-stat-group--inverse {
+  background-color: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.paper-stat-group > .paper-stat {
+  padding: var(--space-5);
+  border-right: var(--line-hair) solid var(--line);
+}
+
+.paper-stat-group > .paper-stat:last-child {
+  border-right: 0;
+}
+
+.paper-stat-group--inverse > .paper-stat {
+  border-right-color: var(--line-inverse);
+}
+
+.paper-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.paper-stat__label {
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  color: var(--ink-soft);
+}
+
+.paper-stat-group--inverse .paper-stat__label {
+  color: var(--line-inverse);
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+
+.paper-stat__value {
+  font-size: var(--text-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-title);
+  letter-spacing: var(--tracking-title);
+  font-variant-numeric: tabular-nums;
+}
+
+.paper-stat__value--mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+
+.paper-stat__unit {
+  margin-left: var(--space-1);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-meta);
+  color: var(--ink-soft);
+}
+
+.paper-stat-group--inverse .paper-stat__unit {
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+
+@media (max-width: 640px) {
+  .paper-stat-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .paper-stat-group > .paper-stat {
+    padding: var(--space-4);
+  }
+
+  .paper-stat-group > .paper-stat:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .paper-stat-group > .paper-stat:nth-child(-n + 2) {
+    border-bottom: var(--line-hair) solid var(--line);
+  }
+
+  .paper-stat-group--inverse > .paper-stat:nth-child(-n + 2) {
+    border-bottom-color: var(--line-inverse);
+  }
+}

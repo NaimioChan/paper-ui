@@ -1,0 +1,45 @@
+/* 标签：直角小块，字号固定 12px 一档，字距为正。
+   库不定义业务分档，色调由调用方按语义选择。 */
+
+.paper-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 4px 10px;
+  border: var(--line-hair) solid var(--transparent);
+  background-color: var(--paper-deep);
+  color: var(--ink);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  white-space: nowrap;
+}
+
+.paper-tag--mid {
+  background-color: var(--green-mid);
+  color: var(--paper);
+}
+
+.paper-tag--strong {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.paper-tag--outline {
+  border-color: var(--ink);
+  background-color: var(--transparent);
+  color: var(--ink);
+}
+
+.paper-tag--outline.paper-tag--mid {
+  border-color: var(--green-mid);
+  background-color: var(--transparent);
+  color: var(--green);
+}
+
+.paper-tag--outline.paper-tag--strong {
+  border-color: var(--ink);
+  background-color: var(--transparent);
+  color: var(--ink);
+}

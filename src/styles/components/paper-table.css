@@ -1,0 +1,102 @@
+/* 表格：线框风格，只用横线，不给单元格加竖线。
+   表头用深纸黄底，数字列等宽右对齐。 */
+
+.paper-table__wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-top: var(--line-hair) solid var(--ink);
+  border-bottom: var(--line-hair) solid var(--ink);
+}
+
+.paper-table__wrap--sticky {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.paper-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body);
+}
+
+.paper-table thead th {
+  position: relative;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--paper-deep);
+  border-bottom: var(--line-hair) solid var(--ink);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.paper-table__wrap--sticky thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.paper-table tbody td {
+  padding: var(--space-4);
+  border-bottom: var(--line-hair) solid var(--line);
+  vertical-align: middle;
+}
+
+.paper-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.paper-table--dense tbody td {
+  padding: var(--space-2) var(--space-4);
+}
+
+.paper-table--striped tbody tr:nth-child(even) td {
+  background-color: var(--paper-deep);
+}
+
+.paper-table__cell--start {
+  text-align: start;
+}
+
+.paper-table__cell--center {
+  text-align: center;
+}
+
+.paper-table__cell--end {
+  text-align: end;
+}
+
+.paper-table__cell--numeric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.paper-table__empty {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: var(--text-body);
+}
+
+.paper-table__row--skeleton td {
+  padding: var(--space-4);
+}
+
+.paper-table__skeleton {
+  display: block;
+  height: 1em;
+  background-color: var(--paper-deep);
+  animation: paper-table-pulse var(--dur-slow) var(--ease-out) infinite alternate;
+}
+
+@keyframes paper-table-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.4;
+  }
+}

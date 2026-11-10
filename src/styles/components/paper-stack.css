@@ -1,0 +1,48 @@
+/* 纵向或横向的等间距堆叠，间距只取 --space-* 令牌。 */
+
+.paper-stack {
+  display: flex;
+  gap: var(--stack-gap, var(--space-4));
+  min-width: 0;
+}
+
+.paper-stack--vertical {
+  flex-direction: column;
+}
+
+.paper-stack--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.paper-stack--align-stretch {
+  align-items: stretch;
+}
+
+.paper-stack--align-start {
+  align-items: flex-start;
+}
+
+.paper-stack--align-center {
+  align-items: center;
+}
+
+.paper-stack--align-end {
+  align-items: flex-end;
+}
+
+.paper-stack--justify-start {
+  justify-content: flex-start;
+}
+
+.paper-stack--justify-center {
+  justify-content: center;
+}
+
+.paper-stack--justify-end {
+  justify-content: flex-end;
+}
+
+.paper-stack--justify-between {
+  justify-content: space-between;
+}

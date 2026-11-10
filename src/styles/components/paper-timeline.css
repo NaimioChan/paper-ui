@@ -1,0 +1,148 @@
+/* 流转链：左侧一像素竖线贯穿，节点是 8px 正方形压在线上。
+   线用绝对定位画在节点边界上，相邻节点的上下两段首尾相接，形成一条连续竖线。
+   mark 顶端对齐首行文字中心，与学期标签同一水平。 */
+
+.paper-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.paper-timeline__node {
+  --rail-inset: var(--space-4);
+  --rail-top: calc(var(--rail-inset) + 0.62em);
+  --rail-mark: 8px;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(64px, max-content) 1fr auto;
+  grid-template-areas:
+    'when title price'
+    'when meta price';
+  align-items: baseline;
+  column-gap: var(--space-4);
+  row-gap: 2px;
+  padding-block: var(--rail-inset);
+  padding-inline-start: calc(var(--rail-mark) + var(--space-4));
+}
+
+.paper-timeline:not(.paper-timeline--price) .paper-timeline__node {
+  grid-template-columns: minmax(64px, max-content) 1fr;
+  grid-template-areas:
+    'when title'
+    'when meta';
+}
+
+.paper-timeline__rail {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--rail-mark);
+}
+
+/* 方形节点，压在线宽的中轴上 */
+.paper-timeline__mark {
+  position: absolute;
+  inset-inline-start: 0;
+  top: var(--rail-top);
+  width: var(--rail-mark);
+  height: var(--rail-mark);
+  background-color: var(--ink);
+}
+
+.paper-timeline__line {
+  position: absolute;
+  inset-inline-start: calc(var(--rail-mark) / 2 - var(--line-hair) / 2);
+  width: var(--line-hair);
+  background-color: var(--ink);
+}
+
+.paper-timeline__line--above {
+  top: 0;
+  height: var(--rail-top);
+}
+
+.paper-timeline__line--below {
+  top: calc(var(--rail-top) + var(--rail-mark));
+  bottom: 0;
+}
+
+.paper-timeline__line.is-off {
+  background-color: var(--transparent);
+}
+
+.paper-timeline__node--current .paper-timeline__mark {
+  background-color: var(--orange);
+}
+
+.paper-timeline__when {
+  grid-area: when;
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.paper-timeline__title {
+  grid-area: title;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-card);
+}
+
+.paper-timeline__now {
+  padding: 1px 6px;
+  background-color: var(--orange);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-meta);
+  line-height: 1.4;
+}
+
+.paper-timeline__meta {
+  grid-area: meta;
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  color: var(--ink-soft);
+}
+
+.paper-timeline__price {
+  grid-area: price;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.paper-timeline__node--current .paper-timeline__price {
+  color: var(--orange);
+}
+
+.paper-timeline__empty {
+  font-size: var(--text-body);
+  color: var(--ink-soft);
+  padding-block: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .paper-timeline__node,
+  .paper-timeline:not(.paper-timeline--price) .paper-timeline__node {
+    --rail-inset: var(--space-3);
+
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'when when'
+      'title price'
+      'meta meta';
+    column-gap: var(--space-3);
+  }
+}

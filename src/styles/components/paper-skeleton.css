@@ -1,0 +1,23 @@
+/* 骨架屏：明暗循环。只动透明度，不动尺寸。 */
+
+.paper-skeleton {
+  display: block;
+  background-color: var(--paper-deep);
+  animation: paper-skeleton-pulse var(--dur-slow) var(--ease-out) infinite alternate;
+  opacity: 1;
+}
+
+.paper-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@keyframes paper-skeleton-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.4;
+  }
+}

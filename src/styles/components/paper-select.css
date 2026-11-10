@@ -1,0 +1,39 @@
+/* 原生 select 包一层：去掉系统外观，右侧用一个方块箭头代替三角。
+   箭头是直角方块旋转 45 度形成的折角，不使用圆角。 */
+
+.paper-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.paper-select__native {
+  cursor: pointer;
+  padding-right: var(--space-6);
+}
+
+.paper-select__native option {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+.paper-select--placeholder .paper-select__native {
+  color: var(--ink-soft);
+}
+
+.paper-select__mark {
+  position: absolute;
+  right: var(--space-2);
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -5px;
+  border-right: var(--line-bold) solid var(--ink);
+  border-bottom: var(--line-bold) solid var(--ink);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.paper-select__native:disabled + .paper-select__mark {
+  border-color: var(--line);
+}

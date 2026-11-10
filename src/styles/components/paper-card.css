@@ -1,0 +1,87 @@
+/* 卡片：无边框无阴影，靠底色与一像素内线分栏。 */
+
+.paper-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--paper-deep);
+  color: var(--ink);
+}
+
+.paper-card--paper {
+  background-color: var(--paper);
+}
+
+.paper-card--ink {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.paper-card--divided {
+  border-top: var(--line-hair) solid var(--line);
+}
+
+.paper-card--ink.paper-card--divided {
+  border-top-color: var(--line-inverse);
+}
+
+.paper-card--pad-none {
+  padding: 0;
+}
+
+.paper-card--pad-sm {
+  padding: var(--space-3);
+}
+
+.paper-card--pad-md {
+  padding: var(--space-5);
+}
+
+.paper-card--pad-lg {
+  padding: var(--space-7);
+}
+
+.paper-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--line-hair) solid var(--line);
+}
+
+.paper-card--pad-none .paper-card__header {
+  padding: var(--space-4) var(--space-5) var(--space-3);
+}
+
+.paper-card--ink .paper-card__header {
+  border-bottom-color: var(--line-inverse);
+}
+
+.paper-card__body {
+  flex: 1;
+  min-width: 0;
+  padding-top: var(--space-4);
+}
+
+.paper-card--pad-none .paper-card__body {
+  padding: var(--space-4) var(--space-5);
+}
+
+.paper-card__header + .paper-card__body {
+  padding-top: var(--space-4);
+}
+
+.paper-card__footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: var(--line-hair) solid var(--line);
+}
+
+.paper-card--pad-none .paper-card__footer {
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  margin-top: 0;
+}
+
+.paper-card--ink .paper-card__footer {
+  border-top-color: var(--line-inverse);
+}

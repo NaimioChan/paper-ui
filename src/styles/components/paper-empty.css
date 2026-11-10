@@ -1,0 +1,32 @@
+/* 空态：一行标题，一行说明，可选一个动作。无插图，靠线与留白。 */
+
+.paper-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-block: var(--space-8);
+}
+
+.paper-empty--ruled {
+  border-top: var(--line-hair) solid var(--line);
+  border-bottom: var(--line-hair) solid var(--line);
+  padding-inline: var(--space-1);
+}
+
+.paper-empty__title {
+  font-size: var(--text-card);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-card);
+}
+
+.paper-empty__description {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+
+.paper-empty__action {
+  margin-top: var(--space-3);
+}

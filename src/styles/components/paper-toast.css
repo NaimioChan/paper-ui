@@ -1,0 +1,83 @@
+/* 轻提示：从顶部滑入。位移在入场动画里是允许的，缩放不是。
+   纸黄底墨字，左侧两像素色条标状态。 */
+
+.paper-toast-stack {
+  position: fixed;
+  top: var(--toast-offset, var(--space-5));
+  left: 50%;
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: max-content;
+  max-width: min(480px, calc(100vw - var(--space-5) * 2));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.paper-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  background-color: var(--paper);
+  color: var(--ink);
+  border: var(--line-hair) solid var(--ink);
+  border-left: var(--line-bold) solid var(--ink);
+  pointer-events: auto;
+}
+
+.paper-toast--orange {
+  border-left-color: var(--orange);
+}
+
+.paper-toast--green {
+  border-left-color: var(--green);
+}
+
+.paper-toast__message {
+  font-size: var(--text-body);
+  line-height: 1.45;
+}
+
+.paper-toast__close {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color var(--dur-fade) var(--ease-out);
+}
+
+.paper-toast__close:hover {
+  color: var(--ink);
+}
+
+.paper-toast-enter-active,
+.paper-toast-leave-active {
+  transition:
+    opacity var(--dur-fade) var(--ease-out),
+    transform var(--dur-fade) var(--ease-out);
+}
+
+.paper-toast-enter-from,
+.paper-toast-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-toast-enter-active,
+  .paper-toast-leave-active {
+    transition: opacity var(--dur-fade) var(--ease-out);
+  }
+
+  .paper-toast-enter-from,
+  .paper-toast-leave-to {
+    transform: none;
+  }
+}

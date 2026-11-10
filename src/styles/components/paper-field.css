@@ -1,0 +1,86 @@
+/* 表单外壳：标签行、控件槽、提示行。控件自身的造型在各自 CSS 里。 */
+
+.paper-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.paper-field__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.paper-field__label {
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  font-weight: var(--weight-medium);
+  color: var(--ink-soft);
+}
+
+.paper-field__required {
+  color: var(--orange);
+}
+
+.paper-field__note {
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.paper-field__message {
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  line-height: var(--leading-meta);
+  color: var(--ink-soft);
+}
+
+.paper-field__message--error {
+  color: var(--orange);
+}
+
+/* 控件通用骨架：直角、只有下边框 */
+.paper-control {
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  padding: var(--space-2) 0;
+  border: 0;
+  border-bottom: var(--line-hair) solid var(--ink);
+  background-color: var(--transparent);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.5;
+  transition: border-color var(--dur-fade) var(--ease-out);
+}
+
+.paper-control::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.65;
+}
+
+.paper-control:hover:not(:disabled) {
+  border-bottom-color: var(--green);
+}
+
+.paper-control:focus-visible {
+  outline: none;
+  border-bottom: var(--line-bold) solid var(--focus-color);
+  padding-bottom: calc(var(--space-2) - (var(--line-bold) - var(--line-hair)));
+}
+
+.paper-control:disabled {
+  border-bottom-color: var(--line);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
+
+.paper-field--invalid .paper-control {
+  border-bottom: var(--line-bold) solid var(--orange);
+}
