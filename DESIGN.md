@@ -132,7 +132,7 @@ src/lib/*.ts                无 DOM 依赖的纯逻辑
 
 **PaperRule** — 分隔线。`weight` 取 `hair`/`bold`/`heavy`；`ink` 用墨色线；`vertical` 竖排；`space` 控制留白。
 
-**PaperMega** — 超大字号展示字。`text` 为文本，`orientation` 取横排或竖排，`offset` 叠印描边副本形成套印错位，`tone` 取 `ink`/`paper`/`orange`/`green`/`outline`。
+**PaperMega** — 超大字号展示字。`text` 为文本，`orientation` 取横排或竖排，`tone` 取 `ink`/`paper`/`orange`/`green`/`outline`。
 
 **PaperStat / PaperStatGroup** — 统计块。`PaperStatGroup` 的 `columns` 定列数，`inverse` 用墨底纸黄字，`ruled` 加顶部纸橙横线。
 

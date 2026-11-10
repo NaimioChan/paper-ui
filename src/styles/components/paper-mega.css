@@ -1,5 +1,4 @@
 .paper-mega {
-  position: relative;
   display: block;
   margin: 0;
   font-family: var(--font-sans);
@@ -36,48 +35,4 @@
   width: auto;
   height: auto;
   flex: none;
-}
-
-.paper-mega--vertical .paper-mega__text {
-  writing-mode: vertical-rl;
-}
-
-.paper-mega__text {
-  display: inline-block;
-}
-
-/* 错位重影：描边副本偏向右下，制造印刷套印偏差 */
-.paper-mega--offset .paper-mega__text {
-  position: relative;
-}
-
-.paper-mega--offset .paper-mega__text::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translate(var(--offstep), var(--offstep));
-  color: var(--transparent);
-  -webkit-text-stroke: var(--line-bold) var(--ink-soft);
-  opacity: 0.6;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.paper-mega--offset.paper-mega--paper .paper-mega__text::after {
-  -webkit-text-stroke-color: var(--paper);
-}
-
-.paper-mega--offset.paper-mega--orange .paper-mega__text::after {
-  -webkit-text-stroke-color: var(--orange);
-}
-
-.paper-mega--offset.paper-mega--green .paper-mega__text::after {
-  -webkit-text-stroke-color: var(--green);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .paper-mega {
-    letter-spacing: var(--tracking-mega);
-  }
 }

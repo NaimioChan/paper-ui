@@ -90,7 +90,7 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
 <template>
   <PaperContainer>
     <header class="pv-hero">
-      <PaperMega text="PAPER" tone="ink" offset class="pv-hero__mega" />
+      <PaperMega text="PAPER" tone="ink" class="pv-hero__mega" />
       <PaperComposition layout="offset" ratio="1.6fr 1fr">
         <PaperStack :gap="5">
           <p class="pv-eyebrow paper-mono">paper-ui · 0.2.0</p>
