@@ -122,7 +122,7 @@ const components = {
 
 /**
  * 全量注册插件。也可以按需 import 单个组件，两者不冲突。
- * 注册后仍需在入口引入 paper-ui/style.css 或在 vite 里导入本包。
+ * 注册后仍需在入口引入 @naimio/paper-ui/style.css。
  */
 export const PaperUI: Plugin = {
   install(app: App) {

@@ -17,7 +17,7 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "paper-ui": ["./src/index.ts"]
+      "@naimio/paper-ui": ["./src/index.ts"]
     },
     "noEmit": true
   },

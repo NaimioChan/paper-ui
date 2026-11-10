@@ -36,7 +36,7 @@ import {
   type PaperNavLink,
   type PaperTabItem,
   type PaperTimelineItem,
-} from 'paper-ui'
+} from '@naimio/paper-ui'
 
 const toast = usePaperToast()
 
@@ -140,7 +140,7 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
       <PaperMega text="PAPER" tone="ink" class="pv-hero__mega" />
       <PaperComposition layout="offset" ratio="1.6fr 1fr">
         <PaperStack :gap="5">
-          <p class="pv-eyebrow paper-mono">paper-ui · 0.2.0</p>
+          <p class="pv-eyebrow paper-mono">@naimio/paper-ui · 0.1.0</p>
           <h1 class="pv-hero__title">纸感直角设计系统</h1>
           <p class="pv-lede">
             一组外观原语。直角色块、一像素线、纸噪纹理与构成主义构图。
@@ -511,7 +511,7 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
     <footer class="pv-foot">
       <PaperStack direction="horizontal" :gap="3" align="center">
         <span class="pv-bar" aria-hidden="true"></span>
-        <p class="paper-meta">paper-ui · 直角 · 纸噪 · 构成主义</p>
+        <p class="paper-meta">@naimio/paper-ui · 直角 · 纸噪 · 构成主义</p>
       </PaperStack>
     </footer>
   </PaperContainer>

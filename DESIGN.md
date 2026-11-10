@@ -232,7 +232,7 @@ dist/index.d.ts       类型入口
 
 发布流程：`npm run build` 产出 dist，`prepublishOnly` 内联执行 `npm test && npm run build`，`npm publish` 时自动跑测试与构建。`files` 为白名单，只打包 `dist/`；`README.md` 与 `LICENSE` 由 npm 自动纳入。
 
-安装方式三选：`npm i paper-ui`（已发布）、`npm i ./paper-ui-x.y.z.tgz`（tarball，真实解包）、`file:../paper-ui`（软链，开发期即时生效）。
+安装方式三选：`npm i @naimio/paper-ui`、`npm i ./naimio-paper-ui-x.y.z.tgz`（tarball，真实解包）、`file:../paper-ui`（软链，开发期即时生效）。
 
 ## 9. 测试
 

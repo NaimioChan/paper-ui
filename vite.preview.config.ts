@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      'paper-ui': fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      '@naimio/paper-ui': fileURLToPath(new URL('./src/index.ts', import.meta.url)),
     },
   },
   server: {

@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => ({
       : []),
   ],
   resolve: {
-    alias: { 'paper-ui': entry },
+    alias: { '@naimio/paper-ui': entry },
   },
   build: {
     lib: {

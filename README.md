@@ -14,13 +14,12 @@ npm run build       # 产出 dist/
 ## 安装
 
 ```bash
-npm i paper-ui            # 发布后
-npm i ../paper-ui         # 或从本地打包安装
-npm i ./paper-ui-0.1.0.tgz
+npm i @naimio/paper-ui              # 从 npm 安装
+npm i ./naimio-paper-ui-0.1.0.tgz   # 或从 tarball 安装
 ```
 
 ```json
-{ "dependencies": { "paper-ui": "file:../paper-ui" } }
+{ "dependencies": { "@naimio/paper-ui": "file:../paper-ui" } }
 ```
 
 `file:` 依赖是软链，改动后立刻生效，适合同机开发；tarball 安装是真实解包，行为与线上一致。
@@ -29,8 +28,8 @@ npm i ./paper-ui-0.1.0.tgz
 
 ```ts
 // main.ts
-import PaperUI from 'paper-ui'
-import 'paper-ui/style.css'
+import PaperUI from '@naimio/paper-ui'
+import '@naimio/paper-ui/style.css'
 
 app.use(PaperUI)
 ```
@@ -38,10 +37,10 @@ app.use(PaperUI)
 按需引入：
 
 ```ts
-import { PaperButton, PaperTag } from 'paper-ui'
+import { PaperButton, PaperTag } from '@naimio/paper-ui'
 ```
 
-只要令牌、自己写样式时引 `paper-ui/tokens.css` 与 `paper-ui/base.css`。
+只要令牌、自己写样式时引 `@naimio/paper-ui/tokens.css` 与 `@naimio/paper-ui/base.css`。
 
 ## 定制
 
