@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import PaperButton from '../src/components/PaperButton.vue'
 import PaperInput from '../src/components/PaperInput.vue'
 import PaperSelect from '../src/components/PaperSelect.vue'
@@ -116,12 +116,19 @@ describe('PaperSelect', () => {
     expect(wrapper.find('.paper-select__value').text()).toBe('有笔记')
   })
 
-  it('点击选项回传原始值并收起', async () => {
+  it('点击选项回传原始值并进入收起态', async () => {
+    vi.useFakeTimers()
     const wrapper = mount(PaperSelect, { props: { options } })
     await wrapper.find('[role="combobox"]').trigger('click')
     await wrapper.findAll('[role="option"]')[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([2])
+    expect(wrapper.find('[role="combobox"]').attributes('aria-expanded')).toBe('false')
+    // 收起动画期间面板保留 DOM，播完才移除
+    expect(wrapper.find('.paper-select__panel--closing').exists()).toBe(true)
+    vi.advanceTimersByTime(400)
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
+    vi.useRealTimers()
   })
 
   it('禁用项不可选', async () => {
@@ -157,12 +164,17 @@ describe('PaperSelect', () => {
   })
 
   it('Esc 收起面板', async () => {
+    vi.useFakeTimers()
     const wrapper = mount(PaperSelect, { props: { options } })
     const trigger = wrapper.find('[role="combobox"]')
     await trigger.trigger('click')
     expect(wrapper.find('[role="listbox"]').exists()).toBe(true)
     await trigger.trigger('keydown', { key: 'Escape' })
+    expect(trigger.attributes('aria-expanded')).toBe('false')
+    vi.advanceTimersByTime(400)
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('[role="listbox"]').exists()).toBe(false)
+    vi.useRealTimers()
   })
 
   it('空选项数组时给出空态', async () => {

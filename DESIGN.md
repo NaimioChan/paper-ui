@@ -124,6 +124,8 @@ src/lib/*.ts                无 DOM 依赖的纯逻辑
 
 点击外部关闭，收起后焦点留在触发器。触发器下方空间不足 `panelMaxHeight` 加 16px 时改为向上展开。传入 `name` 时渲染同名隐藏域，供原生表单提交。
 
+动效：面板用 `clip-path` 从贴合触发器的边缘擦出，收起时沿反方向擦回；选项悬停与键盘高亮一致，用从左向右拉出的墨色层，与 `PaperButton` 的悬停语法相同。收起动画期间面板保留在 DOM 中（加 `.paper-select__panel--closing`），动画结束才移除。`prefers-reduced-motion` 下关闭全部动画与过渡。
+
 选择原生 `<select>` 的下拉列表由系统渲染，CSS 无法控制其外观，因此改为自绘。
 
 **PaperCheckbox / PaperRadio** — 原生控件隐藏，可视部分为 16px 直角方块，勾与内点均为方形。

@@ -33,6 +33,7 @@ const props = withDefaults(
 const isPlaceholder = computed(() => props.placeholder !== undefined && model.value === null)
 
 const open = ref(false)
+const closing = ref(false)
 const dropUp = ref(false)
 const root = ref<HTMLElement | null>(null)
 const listEl = ref<HTMLElement | null>(null)
@@ -47,8 +48,17 @@ const enabledIndexes = computed(() =>
   props.options.map((option, index) => ({ option, index })).filter((entry) => !entry.option.disabled).map((e) => e.index),
 )
 
+let closeTimer: ReturnType<typeof setTimeout> | undefined
+
 function close() {
+  if (!open.value) return
   open.value = false
+  // 面板保留到退出动画结束，避免瞬间消失
+  closing.value = true
+  clearTimeout(closeTimer)
+  closeTimer = setTimeout(() => {
+    closing.value = false
+  }, 340)
   activeIndex.value = -1
 }
 
@@ -60,6 +70,8 @@ function toggle() {
 
 async function openPanel() {
   if (props.disabled) return
+  clearTimeout(closeTimer)
+  closing.value = false
   // 触发器下方空间不足时向上展开，避免面板被视口裁切
   const rect = root.value?.getBoundingClientRect()
   if (rect) {
@@ -156,6 +168,7 @@ watch(open, (isOpen) => {
 
 onBeforeUnmount(() => {
   globalThis.document?.removeEventListener('pointerdown', onDocumentPointerDown, true)
+  clearTimeout(closeTimer)
 })
 
 const triggerId = computed(() => props.id)
@@ -194,7 +207,12 @@ const triggerId = computed(() => props.id)
           <span class="paper-select__mark" aria-hidden="true"></span>
         </button>
 
-        <div v-if="open" class="paper-select__panel" :style="{ maxHeight: panelMaxHeight }">
+        <div
+          v-if="open || closing"
+          class="paper-select__panel"
+          :class="{ 'paper-select__panel--closing': closing && !open }"
+          :style="{ maxHeight: panelMaxHeight }"
+        >
           <ul
             :id="`${fieldId}-listbox`"
             ref="listEl"

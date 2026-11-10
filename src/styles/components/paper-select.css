@@ -64,12 +64,63 @@
   overscroll-behavior: contain;
   background-color: var(--paper);
   border: var(--line-hair) solid var(--ink);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) var(--transparent);
+  animation: paper-select-reveal var(--dur-sweep) var(--ease-sweep);
+}
+
+/* 面板从上边缘向下擦出，收起方向随展开方向反置 */
+@keyframes paper-select-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* 收起：沿展开的相反方向擦回 */
+.paper-select__panel--closing {
+  animation-name: paper-select-conceal;
+  pointer-events: none;
+}
+
+@keyframes paper-select-conceal {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
 }
 
 /* 上方空间不足时改为向上展开，底边贴住触发器 */
 .paper-select--drop-up .paper-select__panel {
   top: auto;
   bottom: calc(100% + var(--space-1));
+  animation-name: paper-select-reveal-up;
+}
+
+.paper-select--drop-up .paper-select__panel--closing {
+  animation-name: paper-select-conceal-up;
+}
+
+@keyframes paper-select-conceal-up {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes paper-select-reveal-up {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 .paper-select__list {
@@ -79,6 +130,9 @@
 }
 
 .paper-select__option {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,15 +142,36 @@
   font-size: var(--text-body);
   line-height: 1.4;
   cursor: pointer;
+  transition: color var(--dur-sweep) var(--ease-sweep);
+}
+
+/* 拉出层：从左向右展开，与按钮的悬停语法一致 */
+.paper-select__option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ink);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--dur-sweep) var(--ease-sweep);
+}
+
+.paper-select__option:hover::before,
+.paper-select__option.is-active::before {
+  clip-path: inset(0 0 0 0);
+}
+
+.paper-select__option:hover,
+.paper-select__option.is-active {
+  color: var(--paper);
+}
+
+.paper-select__option.is-disabled::before {
+  clip-path: inset(0 100% 0 0);
 }
 
 .paper-select__option:last-child {
   border-bottom: 0;
-}
-
-.paper-select__option.is-active {
-  background-color: var(--ink);
-  color: var(--paper);
 }
 
 .paper-select__option.is-selected {
@@ -108,8 +183,8 @@
   cursor: not-allowed;
 }
 
+.paper-select__option.is-disabled:hover,
 .paper-select__option.is-disabled.is-active {
-  background-color: var(--transparent);
   color: var(--line);
 }
 
@@ -133,4 +208,16 @@
   font-size: var(--text-meta);
   letter-spacing: var(--tracking-meta);
   color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-select__panel,
+  .paper-select__panel--closing {
+    animation: none;
+  }
+
+  .paper-select__option,
+  .paper-select__option::before {
+    transition: none;
+  }
 }
