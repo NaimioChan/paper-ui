@@ -75,7 +75,9 @@ src/lib/*.ts                无 DOM 依赖的纯逻辑
 
 ## 组件
 
-布局 `PaperContainer` `PaperGrid` `PaperCell` `PaperStack` `PaperComposition`
+布局 `PaperContainer` `PaperGrid` `PaperCell` `PaperStack` `PaperComposition` `PaperShell`
+
+导航 `PaperNavbar` `PaperSidebar`
 
 表单 `PaperButton` `PaperField` `PaperInput` `PaperSelect` `PaperCheckbox` `PaperRadio`
 

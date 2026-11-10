@@ -29,6 +29,10 @@ import PaperToast from './components/PaperToast.vue'
 import PaperSlab from './components/PaperSlab.vue'
 import PaperMega from './components/PaperMega.vue'
 import PaperComposition from './components/PaperComposition.vue'
+import PaperNavbar from './components/PaperNavbar.vue'
+import PaperNavbarMenu from './components/PaperNavbarMenu.vue'
+import PaperSidebar from './components/PaperSidebar.vue'
+import PaperShell from './components/PaperShell.vue'
 
 export {
   PaperContainer,
@@ -58,6 +62,10 @@ export {
   PaperSlab,
   PaperMega,
   PaperComposition,
+  PaperNavbar,
+  PaperNavbarMenu,
+  PaperSidebar,
+  PaperShell,
 }
 
 export { resolveTimeline } from './lib/timeline'
@@ -65,6 +73,15 @@ export type { PaperTimelineItem, ResolvedTimelineNode } from './lib/timeline'
 export { usePaperToast } from './lib/toast'
 export type { PaperToastItem, PaperToastTone } from './lib/toast'
 export { filterFocusable, nextFocusIndex, FOCUSABLE_SELECTOR } from './lib/focus'
+export {
+  activeGroupIds,
+  flattenNav,
+  groupsToReveal,
+  initialOpenState,
+  nextNavIndex,
+  visibleNav,
+} from './lib/nav'
+export type { PaperNavEntry, PaperNavGroup, PaperNavLink } from './lib/nav'
 export type { PaperSelectOption } from './components/PaperSelect.vue'
 export type { PaperTabItem } from './components/PaperTabs.vue'
 export type { PaperTableColumn } from './components/PaperTable.vue'
@@ -97,6 +114,10 @@ const components = {
   PaperSlab,
   PaperMega,
   PaperComposition,
+  PaperNavbar,
+  PaperNavbarMenu,
+  PaperSidebar,
+  PaperShell,
 }
 
 /**

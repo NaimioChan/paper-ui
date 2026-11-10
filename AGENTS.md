@@ -34,9 +34,10 @@ npm run dev               # 组件预览页 :5180
 7. 无 DOM 依赖的逻辑放进 `src/lib/` 并配单测。组件里的复杂判断先抽成纯函数。
 8. 纸噪只加在容器表面，不加在文字与控件内部。浅色表面用 `--noise-image`，深色用 `--noise-image-dark`。
 9. 新增组件后同步 `src/index.ts` 的导出与注册表、`preview/App.vue` 的示例区块、`DESIGN.md` 的组件清单。
-10. 改完必跑 `npm test` 与 `npm run typecheck`，两个都过才算完。
-11. 注释只写接口契约与行为，不写动机、历史与设计意图。
-12. 文档不用口语、不用第二人称，统一无人称陈述或祈使句。
+10. 多根节点的组件（如带 Teleport 遮罩的侧栏）不能用 `wrapper.classes()` / `wrapper.attributes()` 断言，改查 `.find()` 或 `document.body`。
+11. 改完必跑 `npm test` 与 `npm run typecheck`，两个都过才算完。
+12. 注释只写接口契约与行为，不写动机、历史与设计意图。
+13. 文档不用口语、不用第二人称，统一无人称陈述或祈使句。
 
 ## 模块导航
 
@@ -45,7 +46,7 @@ npm run dev               # 组件预览页 :5180
 | 视觉令牌（色、字、距、噪、动效） | `src/styles/tokens.css`，说明见 `DESIGN.md` 第 2 节 |
 | 重置、排版、工具类 | `src/styles/base.css` |
 | 组件实现 | `src/components/`，样式在 `src/styles/components/` |
-| 纯逻辑（时间轴、提示队列、焦点） | `src/lib/`，测试在 `tests/` |
+| 纯逻辑（时间轴、提示队列、焦点、导航） | `src/lib/`，测试在 `tests/` |
 | 导出与插件注册 | `src/index.ts` |
 | 预览页（验收用） | `preview/`，`npm run dev` |
 | 视觉禁令检查 | `scripts/check-style.mjs` |

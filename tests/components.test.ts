@@ -10,6 +10,9 @@ import PaperTable from '../src/components/PaperTable.vue'
 import PaperFigure from '../src/components/PaperFigure.vue'
 import PaperDialog from '../src/components/PaperDialog.vue'
 import PaperBadge from '../src/components/PaperBadge.vue'
+import PaperNavbar from '../src/components/PaperNavbar.vue'
+import PaperSidebar from '../src/components/PaperSidebar.vue'
+import PaperShell from '../src/components/PaperShell.vue'
 
 describe('PaperButton', () => {
   it('默认是描边按钮', () => {
@@ -406,5 +409,194 @@ describe('PaperDialog', () => {
     expect(wrapper.emitted('cancel')).toHaveLength(1)
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
     wrapper.unmount()
+  })
+})
+
+describe('PaperNavbar', () => {
+  const items = [
+    { id: 'home', label: '首页' },
+    { id: 'books', label: '书目', badge: 3 },
+    { id: 'off', label: '停用', disabled: true },
+  ]
+
+  it('渲染导航项与当前项标记', () => {
+    const wrapper = mount(PaperNavbar, { props: { items, activeId: 'books' } })
+    const links = wrapper.findAll('.paper-navbar__link')
+    expect(links).toHaveLength(3)
+    expect(links[1].attributes('aria-current')).toBe('page')
+    expect(links[0].attributes('aria-current')).toBeUndefined()
+  })
+
+  it('badge 渲染为数字', () => {
+    const wrapper = mount(PaperNavbar, { props: { items } })
+    expect(wrapper.find('.paper-navbar__badge').text()).toBe('3')
+  })
+
+  it('点击可用项抛出 select 与 activeId 更新', async () => {
+    const wrapper = mount(PaperNavbar, { props: { items } })
+    await wrapper.findAll('.paper-navbar__link')[0].trigger('click')
+    expect(wrapper.emitted('select')?.[0]?.[0]).toMatchObject({ id: 'home' })
+    expect(wrapper.emitted('update:activeId')?.at(-1)).toEqual(['home'])
+  })
+
+  it('禁用项不触发选择', async () => {
+    const wrapper = mount(PaperNavbar, { props: { items } })
+    await wrapper.findAll('.paper-navbar__link')[2].trigger('click')
+    expect(wrapper.emitted('select')).toBeUndefined()
+    expect(wrapper.findAll('.paper-navbar__link')[2].attributes('aria-disabled')).toBe('true')
+  })
+
+  it('窄屏菜单默认收起，点击切换展开', async () => {
+    const wrapper = mount(PaperNavbar, { props: { items } })
+    const toggle = wrapper.find('.paper-navbar__toggle')
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+    await toggle.trigger('click')
+    expect(toggle.attributes('aria-expanded')).toBe('true')
+  })
+
+  it('菜单项点击后收起菜单', async () => {
+    const wrapper = mount(PaperNavbar, { props: { items } })
+    await wrapper.find('.paper-navbar__toggle').trigger('click')
+    await wrapper.findAll('.paper-navbar-menu__link')[0].trigger('click')
+    expect(wrapper.find('.paper-navbar__toggle').attributes('aria-expanded')).toBe('false')
+  })
+
+  it('sticky 与 tone 转成类名', () => {
+    const wrapper = mount(PaperNavbar, { props: { items, sticky: true, tone: 'ink' } })
+    expect(wrapper.classes()).toEqual(expect.arrayContaining(['paper-navbar--sticky', 'paper-navbar--ink']))
+  })
+})
+
+describe('PaperSidebar', () => {
+  const groups = [
+    { id: 'main', label: '主导航', items: [{ id: 'home', label: '首页' }, { id: 'books', label: '书目', badge: 2 }] },
+    {
+      id: 'admin',
+      label: '管理',
+      collapsible: true,
+      items: [{ id: 'orders', label: '订单' }, { id: 'off', label: '停用', disabled: true }],
+    },
+  ]
+
+  it('渲染分组标题与链接', () => {
+    const wrapper = mount(PaperSidebar, { props: { groups } })
+    expect(wrapper.findAll('.paper-sidebar__group')).toHaveLength(2)
+    expect(wrapper.findAll('.paper-sidebar__link')).toHaveLength(4)
+    expect(wrapper.text()).toContain('主导航')
+  })
+
+  it('当前项带 aria-current 与 is-active', () => {
+    const wrapper = mount(PaperSidebar, { props: { groups, activeId: 'orders' } })
+    const link = wrapper.findAll('.paper-sidebar__link').find((l) => l.text().includes('订单'))
+    expect(link?.classes()).toContain('is-active')
+    expect(link?.attributes('aria-current')).toBe('page')
+  })
+
+  it('折叠分组可收起与展开', async () => {
+    const wrapper = mount(PaperSidebar, { props: { groups } })
+    const toggle = wrapper.findAll('.paper-sidebar__group-title--toggle')[0]
+    expect(toggle.attributes('aria-expanded')).toBe('true')
+    await toggle.trigger('click')
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+  })
+
+  it('收起的分组内容被隐去', async () => {
+    const wrapper = mount(PaperSidebar, { props: { groups } })
+    const body = wrapper.find('#paper-sidebar-group-admin')
+    expect(body.attributes('style') ?? '').not.toContain('display: none')
+    await wrapper.findAll('.paper-sidebar__group-title--toggle')[0].trigger('click')
+    expect(body.attributes('style')).toContain('display: none')
+  })
+
+  it('点击链接抛出 select 并关闭抽屉', async () => {
+    const wrapper = mount(PaperSidebar, { props: { groups } })
+    await wrapper.findAll('.paper-sidebar__link')[0].trigger('click')
+    expect(wrapper.emitted('select')?.[0]?.[0]).toMatchObject({ id: 'home' })
+    expect(wrapper.emitted('update:drawerOpen')?.at(-1)).toEqual([false])
+  })
+
+  it('禁用项不可点击', async () => {
+    const wrapper = mount(PaperSidebar, { props: { groups } })
+    const disabled = wrapper.findAll('.paper-sidebar__link').at(-1)
+    expect(disabled?.attributes('aria-disabled')).toBe('true')
+    expect(disabled?.attributes('tabindex')).toBe('-1')
+  })
+
+  it('drawerOpen 控制抽屉类', () => {
+    const wrapper = mount(PaperSidebar, { props: { groups, drawerOpen: true } })
+    expect(wrapper.find('.paper-sidebar').classes()).toContain('paper-sidebar--drawer-open')
+  })
+
+  it('遮罩点击关闭抽屉', async () => {
+    document.body.innerHTML = ''
+    const wrapper = mount(PaperSidebar, {
+      props: { groups, drawerOpen: true },
+      attachTo: document.body,
+    })
+    await wrapper.vm.$nextTick()
+    const scrim = document.body.querySelector('.paper-sidebar-scrim') as HTMLElement
+    expect(scrim).not.toBeNull()
+    scrim.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted('update:drawerOpen')?.at(-1)).toEqual([false])
+    wrapper.unmount()
+    document.body.innerHTML = ''
+  })
+
+  it('抽屉收起时不渲染遮罩', () => {
+    document.body.innerHTML = ''
+    const wrapper = mount(PaperSidebar, { props: { groups, drawerOpen: false }, attachTo: document.body })
+    expect(document.body.querySelector('.paper-sidebar-scrim')).toBeNull()
+    wrapper.unmount()
+    document.body.innerHTML = ''
+  })
+
+  it('空分组显示空态', () => {
+    const wrapper = mount(PaperSidebar, { props: { groups: [] } })
+    expect(wrapper.find('.paper-sidebar__empty').text()).toBe('无导航项')
+  })
+
+  it('width 写入内联变量', () => {
+    const wrapper = mount(PaperSidebar, { props: { groups, width: '300px' } })
+    expect(wrapper.find('.paper-sidebar').attributes('style')).toContain('--sidebar-width: 300px')
+  })
+})
+
+describe('PaperShell', () => {
+  it('渲染 navbar / sidebar / 内容三段', () => {
+    const wrapper = mount(PaperShell, {
+      slots: {
+        navbar: '<div class="t-nav">顶栏</div>',
+        sidebar: '<div class="t-side">侧栏</div>',
+        default: '<div class="t-main">正文</div>',
+      },
+    })
+    expect(wrapper.find('.paper-shell__navbar').exists()).toBe(true)
+    expect(wrapper.find('.paper-shell__sidebar').exists()).toBe(true)
+    expect(wrapper.find('.t-main').exists()).toBe(true)
+  })
+
+  it('contentWidth 与 padding 转成内容区类', () => {
+    const wrapper = mount(PaperShell, { props: { contentWidth: 'narrow', padding: 'lg' } })
+    const content = wrapper.find('.paper-shell__content')
+    expect(content.classes()).toEqual(
+      expect.arrayContaining(['paper-shell__content--narrow', 'paper-shell__content--pad-lg']),
+    )
+  })
+
+  it('padding 为 none 时不套内容容器', () => {
+    const wrapper = mount(PaperShell, { props: { padding: 'none' }, slots: { default: '<p class="raw">原文</p>' } })
+    expect(wrapper.find('.paper-shell__content').exists()).toBe(false)
+    expect(wrapper.find('.raw').exists()).toBe(true)
+  })
+
+  it('navbarSticky 默认开启', () => {
+    const wrapper = mount(PaperShell, { slots: { navbar: '<div>顶栏</div>' } })
+    expect(wrapper.find('.paper-shell__navbar').classes()).toContain('paper-shell__navbar--sticky')
+  })
+
+  it('无 sidebar 插槽时不渲染栏位', () => {
+    const wrapper = mount(PaperShell, { slots: { default: '正文' } })
+    expect(wrapper.find('.paper-shell__sidebar').exists()).toBe(false)
   })
 })

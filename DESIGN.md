@@ -110,6 +110,18 @@ src/lib/*.ts                无 DOM 依赖的纯逻辑
 
 **PaperComposition** — 构图容器。`layout` 取 `offset`（右栏下移错位）、`diagonal`（两栏斜切对接）、`stack`（单列挂左缘色条）；`ratio` 定义两栏比例；`divider` 与 `dividerTone` 控制色条粗细与颜色。
 
+**PaperNavbar** — 横向顶栏。`items` 为 `PaperNavLink[]`，`activeId` 是当前项（支持 `v-model:active-id`），`tone` 取 `paper`/`ink`/`deep`，`sticky` 吸顶，`bordered` 加底部边线。插槽 `brand` 放品牌位，`actions` 放右侧动作区。
+
+导航项悬停与当前项都用从左向右拉出的下划线。768px 以下收起为「菜单」按钮，点击展开逐项列表，选中后自动收起。
+
+**PaperSidebar** — 侧栏导航。`groups` 为 `PaperNavGroup[]`，每项含 `id`、`label`、`items`、`collapsible`、`defaultOpen`；`activeId` 是当前项；`width`、`tone`、`bordered` 控制外观；`drawerOpen` 控制窄屏抽屉（支持 `v-model:drawer-open`）。
+
+当前项左侧压一条纸橙色条，悬停从左拉出浅底。折叠分组点击标题切换，展开状态在 `groups` 变化时保留。`ArrowUp`/`ArrowDown`/`Home`/`End` 在可用链接间移动焦点。插槽 `brand` 与 `footer`。
+
+900px 以下变为抽屉：侧栏由 `transform` 滑入，遮罩用 `Teleport` 挂到 `body`、层级低于侧栏并覆盖整个视口，点击遮罩关闭。`drawerOpen` 为真时同时渲染 `.paper-sidebar-scrim`。
+
+**PaperShell** — 整页骨架。插槽 `navbar`、`sidebar`、默认内容、`footer`。`navbarSticky` 控制顶栏吸顶，`sidebarWidth` 决定侧栏栏位宽度（窄屏自动归零交给抽屉），`contentWidth` 与 `padding` 控制内容区版心与留白，`padding` 为 `none` 时不套内容容器。
+
 ### 5.2 表单
 
 **PaperButton** — `variant` 取 `solid`/`outline`/`ghost`，`size` 取 `md`/`sm`。悬停时填充从左向右拉出，文字翻为纸黄。`loading` 显示方块脉冲，`block` 撑满宽度。
@@ -168,13 +180,28 @@ src/lib/*.ts                无 DOM 依赖的纯逻辑
 
 `src/index.ts` 提供具名导出与 `PaperUI` 插件（`app.use(PaperUI)` 全量注册）。纯逻辑导出 `resolveTimeline`、`usePaperToast`、`filterFocusable`、`nextFocusIndex`、`FOCUSABLE_SELECTOR`。
 
-## 6. 视觉禁令的自动检查
+## 6. 导航逻辑
+
+`src/lib/nav.ts` 提供无 DOM 依赖的导航计算，全部有单测：
+
+| 函数 | 作用 |
+|---|---|
+| `flattenNav(groups)` | 展平为顺序叶子项，跳过禁用链接 |
+| `visibleNav(groups, openState)` | 只保留展开分组内的项，未记录的组视为展开 |
+| `activeGroupIds(groups, activeId)` | 当前项所在分组 id |
+| `initialOpenState(groups)` | 分组的初始展开状态，折叠组取 `defaultOpen ?? true` |
+| `nextNavIndex(current, length, delta)` | 可用项之间的循环下标，供键盘导航 |
+| `groupsToReveal(groups, openState, activeId)` | 当前项所在分组被收起时，需要展开哪些分组 |
+
+导航数据形状：`PaperNavLink` 含 `id`、`label`、`href`、`badge`、`disabled`；`PaperNavGroup` 含 `id`、`label`、`items`、`collapsible`、`defaultOpen`。
+
+## 7. 视觉禁令的自动检查
 
 `scripts/check-style.mjs` 扫描 `src/` 下的 `.css` 与 `.vue`，剥掉注释后检查 `border-radius` 取值、`box-shadow`、`scale(`、`transition` 属性白名单。命中打印文件与行号并以退出码 1 结束，纳入 `npm test`。
 
 白名单内的过渡属性：`color`、`background-color`、`border-color`（含各向）、`outline-color`、`fill`、`stroke`、`opacity`、`transform`。`transform` 仅用于轻提示之外的毛刺场景，组件里出现需在评审时确认。
 
-## 7. 分发
+## 8. 分发
 
 Vite 库模式输出 ESM，`peerDependencies` 只声明 `vue`。
 
@@ -186,7 +213,7 @@ dist/index.d.ts       类型入口
 
 `exports` 暴露主入口、`./style.css`、`./tokens.css`、`./base.css`。消费方式为 `file:` 本地依赖或 npm 安装。
 
-## 8. 测试
+## 9. 测试
 
 - `tests/*.test.ts` 覆盖 `src/lib/` 纯函数：时间轴当前节点与连线、提示队列容量与自动关闭、焦点筛选与 Tab 循环取模
 - `tests/components.test.ts` 用 `@vue/test-utils` 断言类名、ARIA、插槽与事件，不测像素

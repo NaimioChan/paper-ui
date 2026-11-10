@@ -2,7 +2,7 @@
 /**
  * 视觉禁令检查。
  *
- * 规则来自 bookchain/web/DESIGN.md 第 5.1 与 6.4 节：
+ * 规则来自 DESIGN.md 第 3 节：
  *   1. border-radius 只能是 0，正圆除外（用 var(--radius-round)）
  *   2. 不出现 box-shadow
  *   3. 不出现 scale( 缩放
@@ -130,5 +130,5 @@ for (const [rule, list] of byRule) {
   console.error(`\n[${rule}] ${list.length} 处`)
   for (const item of list) console.error(`  ${item.file}:${item.line}  ${item.text}`)
 }
-console.error(`\n共 ${problems.length} 处违规。规则见 bookchain/web/DESIGN.md 5.1 / 6.4。`)
+console.error(`\n共 ${problems.length} 处违规。规则见 DESIGN.md 第 3 节。`)
 process.exit(1)

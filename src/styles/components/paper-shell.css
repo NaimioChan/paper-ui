@@ -1,0 +1,81 @@
+.paper-shell {
+  --shell-sidebar-width: 248px;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+.paper-shell__navbar {
+  flex: none;
+  z-index: 30;
+}
+
+.paper-shell__navbar--sticky {
+  position: sticky;
+  top: 0;
+}
+
+.paper-shell__body {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.paper-shell__sidebar {
+  flex: none;
+  width: var(--shell-sidebar-width);
+}
+
+.paper-shell__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.paper-shell__content {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.paper-shell__content--narrow {
+  max-width: calc(var(--layout-narrow) + var(--layout-gutter) * 2);
+}
+
+.paper-shell__content--default {
+  max-width: calc(var(--layout-max) + var(--layout-gutter) * 2);
+}
+
+.paper-shell__content--wide {
+  max-width: calc(var(--layout-wide) + var(--layout-gutter) * 2);
+}
+
+.paper-shell__content--full {
+  max-width: none;
+}
+
+.paper-shell__content--pad-sm {
+  padding: var(--space-4) var(--layout-gutter);
+}
+
+.paper-shell__content--pad-md {
+  padding: var(--space-6) var(--layout-gutter) var(--space-8);
+}
+
+.paper-shell__content--pad-lg {
+  padding: var(--space-8) var(--layout-gutter) var(--space-9);
+}
+
+.paper-shell__footer {
+  flex: none;
+  border-top: var(--line-hair) solid var(--line);
+}
+
+/* 侧栏在窄屏变抽屉，内容区不再预留栏位 */
+@media (max-width: 900px) {
+  .paper-shell__sidebar {
+    width: 0;
+  }
+}

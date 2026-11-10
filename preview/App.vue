@@ -14,9 +14,12 @@ import {
   PaperGrid,
   PaperInput,
   PaperMega,
+  PaperNavbar,
   PaperRadio,
   PaperRule,
   PaperSelect,
+  PaperShell,
+  PaperSidebar,
   PaperSkeleton,
   PaperSlab,
   PaperStack,
@@ -29,6 +32,8 @@ import {
   PaperToast,
   usePaperToast,
   type PaperTableColumn,
+  type PaperNavGroup,
+  type PaperNavLink,
   type PaperTabItem,
   type PaperTimelineItem,
 } from 'paper-ui'
@@ -82,6 +87,48 @@ function confirmDialog() {
     toast.show('操作已受理', { tone: 'green' })
   }, 900)
 }
+const navItems: PaperNavLink[] = [
+  { id: 'home', label: '概览' },
+  { id: 'books', label: '书目', badge: 12 },
+  { id: 'orders', label: '订单', badge: 3 },
+  { id: 'admin', label: '管理', disabled: true },
+]
+const navActive = ref('books')
+
+const navGroups: PaperNavGroup[] = [
+  {
+    id: 'browse',
+    label: '浏览',
+    items: [
+      { id: 'home', label: '概览' },
+      { id: 'books', label: '书目', badge: 12 },
+      { id: 'orders', label: '订单', badge: 3 },
+    ],
+  },
+  {
+    id: 'manage',
+    label: '管理',
+    collapsible: true,
+    items: [
+      { id: 'listings', label: '在售管理' },
+      { id: 'history', label: '历史记录' },
+      { id: 'audit', label: '审核', disabled: true },
+    ],
+  },
+  {
+    id: 'system',
+    label: '系统',
+    collapsible: true,
+    defaultOpen: false,
+    items: [
+      { id: 'users', label: '用户' },
+      { id: 'settings', label: '设置' },
+    ],
+  },
+]
+const navGroupActive = ref('books')
+const drawerOpen = ref(false)
+
 function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
   toast.show(tone === 'orange' ? '校验未通过' : '已更新', { tone })
 }
@@ -151,7 +198,7 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
               <span class="pv-swatch" style="background: var(--gold)"></span>
               <span class="pv-swatch" style="background: var(--line)"></span>
             </div>
-            <p class="paper-meta">噪声浓度 --noise-opacity 默认 0.055</p>
+            <p class="paper-meta">噪声浓度由 --noise-opacity 控制</p>
             <PaperStack direction="horizontal" :gap="3">
               <PaperCard tone="paper" noise padding="sm" class="pv-noise-demo">
                 <span class="paper-meta">faint</span>
@@ -343,6 +390,84 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
     <section class="pv-section">
       <div class="pv-head">
         <span class="pv-no paper-mono">06</span>
+        <h2>导航</h2>
+      </div>
+
+      <PaperStack :gap="6">
+        <div>
+          <p class="paper-meta pv-sub">PaperNavbar · 顶栏</p>
+          <PaperNavbar v-model:active-id="navActive" :items="navItems" tone="paper">
+            <template #brand>
+              <span class="pv-brand">PAPER</span>
+            </template>
+            <template #actions>
+              <PaperTag tone="quiet">示例</PaperTag>
+            </template>
+          </PaperNavbar>
+        </div>
+
+        <div>
+          <p class="paper-meta pv-sub">PaperSidebar · 侧栏（分组可折叠，当前项左侧纸橙色条）</p>
+          <div class="pv-sidebar-demo">
+            <PaperSidebar
+              v-model:drawer-open="drawerOpen"
+              :groups="navGroups"
+              :active-id="navGroupActive"
+              width="240px"
+              @select="(l) => (navGroupActive = l.id)"
+            >
+              <template #brand>
+                <span class="pv-brand">侧栏</span>
+              </template>
+              <template #footer>
+                <span class="paper-meta">底部插槽</span>
+              </template>
+            </PaperSidebar>
+            <div class="pv-sidebar-body">
+              <p class="paper-meta">当前选中：{{ navGroupActive }}</p>
+              <p>侧栏在 900px 以下变为抽屉，由 <code>drawerOpen</code> 控制。</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="paper-meta pv-sub">PaperShell · 整页骨架</p>
+          <div class="pv-shell-demo">
+            <PaperShell content-width="full" padding="sm">
+              <template #navbar>
+                <PaperNavbar v-model:active-id="navActive" :items="navItems" bordered>
+                  <template #brand>
+                    <span class="pv-brand">SHELL</span>
+                  </template>
+                </PaperNavbar>
+              </template>
+              <template #sidebar="{ closeDrawer }">
+                <PaperSidebar
+                  v-model:drawer-open="drawerOpen"
+                  :groups="navGroups"
+                  :active-id="navGroupActive"
+                  width="200px"
+                  @select="(l) => { navGroupActive = l.id; closeDrawer() }"
+                />
+              </template>
+              <PaperStack :gap="3">
+                <h3>内容区</h3>
+                <p class="paper-meta">顶栏吸顶、侧栏栏位预留、内容区自动排布。</p>
+                <PaperStack direction="horizontal" :gap="3">
+                  <PaperButton size="sm" @click="drawerOpen = !drawerOpen">切换抽屉</PaperButton>
+                </PaperStack>
+              </PaperStack>
+            </PaperShell>
+          </div>
+        </div>
+      </PaperStack>
+    </section>
+
+    <PaperRule :space="8" ink weight="heavy" />
+
+    <section class="pv-section">
+      <div class="pv-head">
+        <span class="pv-no paper-mono">07</span>
         <h2>反馈层</h2>
       </div>
       <PaperGrid>
@@ -541,6 +666,39 @@ function showToast(tone: 'ink' | 'orange' | 'green' | 'gold') {
   width: var(--bar-mega);
   height: var(--bar-thin);
   background-color: var(--orange);
+}
+
+.pv-sub {
+  margin-bottom: var(--space-3);
+}
+
+.pv-brand {
+  font-size: var(--text-card);
+  font-weight: var(--weight-black);
+  letter-spacing: var(--tracking-mega);
+}
+
+.pv-sidebar-demo {
+  display: flex;
+  align-items: stretch;
+  border: var(--line-hair) solid var(--line);
+  min-height: 260px;
+}
+
+.pv-sidebar-body {
+  flex: 1;
+  padding: var(--space-5);
+  min-width: 0;
+}
+
+.pv-shell-demo {
+  border: var(--line-hair) solid var(--line);
+  height: 320px;
+  overflow: hidden;
+}
+
+.pv-shell-demo .paper-shell {
+  min-height: 100%;
 }
 
 @media (max-width: 640px) {
