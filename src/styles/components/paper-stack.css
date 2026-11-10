@@ -1,5 +1,3 @@
-/* 纵向或横向的等间距堆叠，间距只取 --space-* 令牌。 */
-
 .paper-stack {
   display: flex;
   gap: var(--stack-gap, var(--space-4));
@@ -31,8 +29,8 @@
   align-items: flex-end;
 }
 
-.paper-stack--justify-start {
-  justify-content: flex-start;
+.paper-stack--justify-between {
+  justify-content: space-between;
 }
 
 .paper-stack--justify-center {
@@ -41,8 +39,4 @@
 
 .paper-stack--justify-end {
   justify-content: flex-end;
-}
-
-.paper-stack--justify-between {
-  justify-content: space-between;
 }

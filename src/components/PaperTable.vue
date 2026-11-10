@@ -26,10 +26,12 @@ withDefaults(
     stickyHead?: boolean
     /** 斑马纹：偶数行用深纸黄底 */
     striped?: boolean
+    /** 反色表头：墨底纸黄字 */
+    ruled?: boolean
     /** 空态文案 */
     emptyText?: string
   }>(),
-  { rowKey: 'id', dense: false, loading: false, loadingRows: 4, stickyHead: false, striped: false, emptyText: '暂无数据' },
+  { rowKey: 'id', dense: false, loading: false, loadingRows: 4, stickyHead: false, striped: false, ruled: false, emptyText: '暂无数据' },
 )
 
 function cellValue(row: Record<string, unknown>, key: string): string {
@@ -46,7 +48,7 @@ function rowId(row: Record<string, unknown>, key: string, index: number): string
 
 <template>
   <div class="paper-table__wrap" :class="{ 'paper-table__wrap--sticky': stickyHead }">
-    <table class="paper-table" :class="{ 'paper-table--dense': dense, 'paper-table--striped': striped }">
+    <table class="paper-table" :class="{ 'paper-table--dense': dense, 'paper-table--striped': striped, 'paper-table--ruled': ruled }">
       <colgroup>
         <col v-for="column in columns" :key="column.key" :style="column.width ? { width: column.width } : undefined" />
       </colgroup>

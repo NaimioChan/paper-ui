@@ -1,5 +1,3 @@
-/* 空态：一行标题，一行说明，可选一个动作。无插图，靠线与留白。 */
-
 .paper-empty {
   display: flex;
   flex-direction: column;

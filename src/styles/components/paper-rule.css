@@ -1,6 +1,3 @@
-/* 一像素分隔线。竖向版本是一个 span 的角色，这里用 hr 加旋转边框实现，
-   在 flex 行内需要有高度，因此竖向版本必须自带高度或由父级拉伸。 */
-
 .paper-rule {
   border: 0;
   border-top: var(--line-hair) solid var(--line);
@@ -11,6 +8,14 @@
 
 .paper-rule--bold {
   border-top-width: var(--line-bold);
+}
+
+.paper-rule--heavy {
+  border-top-width: var(--line-heavy);
+}
+
+.paper-rule--ink {
+  border-top-color: var(--ink);
 }
 
 .paper-rule--vertical {
@@ -24,4 +29,12 @@
 
 .paper-rule--vertical.paper-rule--bold {
   border-left-width: var(--line-bold);
+}
+
+.paper-rule--vertical.paper-rule--heavy {
+  border-left-width: var(--line-heavy);
+}
+
+.paper-rule--vertical.paper-rule--ink {
+  border-left-color: var(--ink);
 }

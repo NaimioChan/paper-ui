@@ -1,13 +1,13 @@
-/* 按钮：直角、一像素边框、悬停反转颜色。不做位移与缩放。 */
-
 .paper-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   padding: 14px 28px;
   border: var(--line-hair) solid var(--ink);
-  border-color: var(--ink);
   background-color: var(--transparent);
   color: var(--ink);
   font-family: var(--font-sans);
@@ -19,10 +19,30 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color var(--dur-fade) var(--ease-out),
+    color var(--dur-sweep) var(--ease-sweep),
     border-color var(--dur-fade) var(--ease-out),
-    color var(--dur-fade) var(--ease-out),
     opacity var(--dur-fade) var(--ease-out);
+}
+
+/* 拉出层：从左向右展开，文字保持在上层 */
+.paper-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ink);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--dur-sweep) var(--ease-sweep);
+}
+
+.paper-button:hover::before,
+.paper-button:focus-visible::before {
+  clip-path: inset(0 0 0 0);
+}
+
+.paper-button:hover,
+.paper-button:focus-visible {
+  color: var(--paper);
 }
 
 .paper-button--solid {
@@ -31,15 +51,12 @@
   color: var(--paper);
 }
 
-.paper-button--outline:hover,
-.paper-button--outline:focus-visible {
-  background-color: var(--ink);
-  color: var(--paper);
+.paper-button--solid::before {
+  background-color: var(--green);
 }
 
 .paper-button--solid:hover,
 .paper-button--solid:focus-visible {
-  background-color: var(--green);
   border-color: var(--green);
   color: var(--paper);
 }
@@ -47,16 +64,19 @@
 .paper-button--ghost {
   border-color: var(--transparent);
   padding-inline: var(--space-2);
+  color: var(--ink-soft);
   text-decoration: underline;
   text-decoration-thickness: var(--line-hair);
   text-underline-offset: 0.24em;
-  color: var(--ink-soft);
+}
+
+.paper-button--ghost::before {
+  background-color: var(--ink);
 }
 
 .paper-button--ghost:hover,
 .paper-button--ghost:focus-visible {
-  background-color: var(--transparent);
-  color: var(--ink);
+  color: var(--paper);
 }
 
 .paper-button--sm {
@@ -74,6 +94,10 @@
   background-color: var(--transparent);
   color: var(--line);
   cursor: not-allowed;
+}
+
+.paper-button:disabled::before {
+  clip-path: inset(0 100% 0 0);
 }
 
 .paper-button--solid:disabled {
@@ -100,5 +124,11 @@
   }
   50% {
     opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-button::before {
+    transition: none;
   }
 }

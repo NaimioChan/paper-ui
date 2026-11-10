@@ -26,6 +26,9 @@ import PaperDialog from './components/PaperDialog.vue'
 import PaperTable from './components/PaperTable.vue'
 import PaperTabs from './components/PaperTabs.vue'
 import PaperToast from './components/PaperToast.vue'
+import PaperSlab from './components/PaperSlab.vue'
+import PaperMega from './components/PaperMega.vue'
+import PaperComposition from './components/PaperComposition.vue'
 
 export {
   PaperContainer,
@@ -52,6 +55,9 @@ export {
   PaperTable,
   PaperTabs,
   PaperToast,
+  PaperSlab,
+  PaperMega,
+  PaperComposition,
 }
 
 export { resolveTimeline } from './lib/timeline'
@@ -88,6 +94,9 @@ const components = {
   PaperTable,
   PaperTabs,
   PaperToast,
+  PaperSlab,
+  PaperMega,
+  PaperComposition,
 }
 
 /**

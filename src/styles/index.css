@@ -1,4 +1,2 @@
-/* 全局层：token、基础排版、表单骨架。组件私有样式由各组件自己引入。 */
 @import './tokens.css';
 @import './base.css';
-@import './field.css';

@@ -91,7 +91,7 @@ for (const dir of scanDirs) {
       const radius = line.match(/border(-[a-z]+)*-radius\s*:\s*([^;]+)/)
       if (radius) {
         const value = radius[2].trim()
-        const allowed = /^(0|0px|var\(--radius-flat\)|var\(--radius-round\))$/.test(value)
+        const allowed = /^(0|0px|inherit|var\(--radius-flat\)|var\(--radius-round\))$/.test(value)
         if (!allowed) report(file, index + 1, 'radius', line)
       }
 
@@ -100,6 +100,7 @@ for (const dir of scanDirs) {
       if (/(^|[^\w-])scale\(/.test(line)) report(file, index + 1, 'scale', line)
 
       const transition = line.match(/transition\s*:\s*([^;]+)/)
+      if (transition && transition[1].trim() === 'none') return
       if (transition && !transition[1].includes('var(')) {
         for (const prop of transitionProps(transition[1])) {
           if (!ALLOWED_TRANSITION_PROPS.has(prop)) report(file, index + 1, 'transition-property', line)

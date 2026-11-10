@@ -1,6 +1,3 @@
-/* 原生 select 包一层：去掉系统外观，右侧用一个方块箭头代替三角。
-   箭头是直角方块旋转 45 度形成的折角，不使用圆角。 */
-
 .paper-select {
   position: relative;
   display: flex;

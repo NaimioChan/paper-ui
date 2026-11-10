@@ -1,6 +1,3 @@
-/* 复选项与单选项：原生控件隐藏，可视部分是一个直角方块。
-   选中态用整块填充，勾与内点用伪元素画，全部为直角。 */
-
 .paper-choice {
   display: inline-flex;
   align-items: flex-start;
@@ -44,7 +41,6 @@
   background-color: var(--ink);
 }
 
-/* 勾：两条边框旋转出来的直角折线 */
 .paper-choice__input:checked + .paper-choice__box::after {
   content: '';
   position: absolute;
@@ -67,7 +63,6 @@
   background-color: var(--paper);
 }
 
-/* 单选选中：外框仍是直角方块，内点用小方块，不用圆点 */
 .paper-choice--radio .paper-choice__input:checked + .paper-choice__box::after {
   content: '';
   left: 4px;

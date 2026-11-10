@@ -1,6 +1,3 @@
-/* 弹窗：遮罩不模糊，面板直角、一像素描边。
-   入场只用透明度淡入，不做位移与缩放。 */
-
 .paper-dialog {
   position: fixed;
   inset: 0;
@@ -19,6 +16,7 @@
 
 .paper-dialog__panel {
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -26,6 +24,35 @@
   background-color: var(--paper);
   color: var(--ink);
   border: var(--line-hair) solid var(--ink);
+}
+
+.paper-dialog__panel--noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--noise-image);
+  background-size: var(--noise-scale);
+  background-repeat: repeat;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
+  pointer-events: none;
+}
+
+.paper-dialog__panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 顶部构成主义色条 */
+.paper-dialog__panel--ruled::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: var(--bar-thin);
+  background-color: var(--orange);
+  z-index: 2;
 }
 
 .paper-dialog__panel--sm {
@@ -102,6 +129,9 @@
 }
 
 .paper-dialog__btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 11px 24px;
   border: var(--line-hair) solid var(--ink);
   background-color: var(--transparent);
@@ -111,8 +141,26 @@
   letter-spacing: var(--tracking-button);
   cursor: pointer;
   transition:
-    background-color var(--dur-fade) var(--ease-out),
-    color var(--dur-fade) var(--ease-out);
+    color var(--dur-sweep) var(--ease-sweep),
+    border-color var(--dur-fade) var(--ease-out);
+}
+
+.paper-dialog__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ink);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--dur-sweep) var(--ease-sweep);
+}
+
+.paper-dialog__btn:hover::before {
+  clip-path: inset(0 0 0 0);
+}
+
+.paper-dialog__btn:hover {
+  color: var(--paper);
 }
 
 .paper-dialog__btn--solid {
@@ -120,13 +168,11 @@
   color: var(--paper);
 }
 
-.paper-dialog__btn:hover {
-  background-color: var(--ink);
-  color: var(--paper);
+.paper-dialog__btn--solid::before {
+  background-color: var(--green);
 }
 
 .paper-dialog__btn--solid:hover {
-  background-color: var(--green);
   border-color: var(--green);
 }
 
@@ -135,6 +181,10 @@
   background-color: var(--line);
   color: var(--paper);
   cursor: not-allowed;
+}
+
+.paper-dialog__btn:disabled::before {
+  clip-path: inset(0 100% 0 0);
 }
 
 @keyframes paper-dialog-fade {

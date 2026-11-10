@@ -1,6 +1,6 @@
 import { readonly, ref } from 'vue'
 
-export type PaperToastTone = 'ink' | 'orange' | 'green'
+export type PaperToastTone = 'ink' | 'orange' | 'green' | 'gold'
 
 export interface PaperToastItem {
   id: number
@@ -13,7 +13,7 @@ export interface PaperToastItem {
 let sequence = 0
 const items = ref<PaperToastItem[]>([])
 
-/** 队列上限，超出时丢最早的，避免长时间挂着的页面堆积。 */
+/** 同时可见的提示条数上限。 */
 const MAX_VISIBLE = 3
 
 function push(message: string, tone: PaperToastTone, duration: number): number {

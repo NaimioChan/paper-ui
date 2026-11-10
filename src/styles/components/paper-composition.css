@@ -1,0 +1,89 @@
+.paper-composition {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--comp-ratio, 1.4fr 1fr);
+  column-gap: var(--space-7);
+  align-items: start;
+}
+
+.paper-composition__divider {
+  display: none;
+}
+
+/* offset：右栏下移一个 --offstep 的倍数，形成错位 */
+.paper-composition--offset > :nth-child(2) {
+  margin-block-start: calc(var(--offstep) * 2);
+}
+
+/* diagonal：左栏顺时针斜切，右栏反向，两栏之间自然留出一道斜缝 */
+.paper-composition--diagonal > :nth-child(1) {
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant-lg)) 100%, 0 100%);
+}
+
+.paper-composition--diagonal > :nth-child(2) {
+  clip-path: polygon(var(--slant-lg) 0, 100% 0, 100% 100%, 0 100%);
+  margin-inline-start: calc(var(--slant-lg) * -1);
+}
+
+/* stack：单列，左缘挂一条贯穿色条 */
+.paper-composition--stack {
+  grid-template-columns: 1fr;
+  padding-inline-start: var(--space-6);
+}
+
+.paper-composition--stack .paper-composition__divider {
+  display: block;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--comp-bar, var(--bar-thin));
+}
+
+.paper-composition__divider--hair {
+  --comp-bar: var(--bar-hair);
+}
+
+.paper-composition__divider--thin {
+  --comp-bar: var(--bar-thin);
+}
+
+.paper-composition__divider--mid {
+  --comp-bar: var(--bar-mid);
+}
+
+.paper-composition__divider--thick {
+  --comp-bar: var(--bar-thick);
+}
+
+.paper-composition__divider--ink {
+  background-color: var(--ink);
+}
+
+.paper-composition__divider--orange {
+  background-color: var(--orange);
+}
+
+.paper-composition__divider--green {
+  background-color: var(--green);
+}
+
+.paper-composition__divider--gold {
+  background-color: var(--gold);
+}
+
+@media (max-width: 640px) {
+  .paper-composition {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5);
+  }
+
+  .paper-composition--offset > :nth-child(2) {
+    margin-block-start: 0;
+  }
+
+  .paper-composition--diagonal > :nth-child(1),
+  .paper-composition--diagonal > :nth-child(2) {
+    clip-path: none;
+    margin-inline-start: 0;
+  }
+}

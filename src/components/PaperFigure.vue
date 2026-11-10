@@ -5,8 +5,8 @@ const props = withDefaults(
   defineProps<{
     src?: string
     alt?: string
-    /** 裁切形状：rect 直角、round 正圆 */
-    shape?: 'rect' | 'round'
+    /** 裁切形状：rect 直角、round 正圆、slant 斜切 */
+    shape?: 'rect' | 'round' | 'slant'
     /** 宽高比，写作 '3 / 4' */
     ratio?: string
     /** 缺省时显示的字，通常取书名首字 */

@@ -1,10 +1,28 @@
-/* 卡片：无边框无阴影，靠底色与一像素内线分栏。 */
-
 .paper-card {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   background-color: var(--paper-deep);
   color: var(--ink);
+}
+
+.paper-card--noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--noise-image);
+  background-size: var(--noise-scale);
+  background-repeat: repeat;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
+  pointer-events: none;
+}
+
+.paper-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .paper-card--paper {
@@ -14,6 +32,10 @@
 .paper-card--ink {
   background-color: var(--ink);
   color: var(--paper);
+}
+
+.paper-card--ink.paper-card--noise::after {
+  background-image: var(--noise-image-dark);
 }
 
 .paper-card--divided {
@@ -84,4 +106,24 @@
 
 .paper-card--ink .paper-card__footer {
   border-top-color: var(--line-inverse);
+}
+
+/* 构成主义角标：整块贴边，替掉卡片的一个角 */
+.paper-card__corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--bar-mega);
+  height: var(--bar-mega);
+  background-color: var(--orange);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  z-index: 2;
+}
+
+.paper-card__corner--green {
+  background-color: var(--green-mid);
+}
+
+.paper-card__corner--gold {
+  background-color: var(--gold);
 }

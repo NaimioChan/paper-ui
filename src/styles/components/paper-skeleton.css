@@ -1,5 +1,3 @@
-/* 骨架屏：明暗循环。只动透明度，不动尺寸。 */
-
 .paper-skeleton {
   display: block;
   background-color: var(--paper-deep);

@@ -18,8 +18,12 @@ const props = withDefaults(
     cancelText?: string
     /** 确认按钮进入加载态 */
     loading?: boolean
+    /** 面板叠加纸噪纹理 */
+    noise?: boolean
+    /** 顶部纸橙细条 */
+    ruled?: boolean
   }>(),
-  { size: 'md', dismissible: true, loading: false },
+  { size: 'md', dismissible: true, loading: false, noise: false, ruled: false },
 )
 
 const emit = defineEmits<{ confirm: []; cancel: [] }>()
@@ -46,7 +50,7 @@ function lockScroll() {
   if (scrollbar > 0) root.style.paddingRight = `${scrollbar}px`
 }
 
-// 焦点落在面板本身而非第一个控件：避免误触关闭按钮，Tab 会先进入面板内首个控件。
+// 打开时焦点落在面板容器，不落在首个控件。
 async function focusPanel() {
   await nextTick()
   panel.value?.focus()
@@ -126,7 +130,10 @@ const titleId = computed(() => `paper-dialog-title-${Math.random().toString(36).
       <div
         ref="panel"
         class="paper-dialog__panel"
-        :class="`paper-dialog__panel--${size}`"
+        :class="[
+          `paper-dialog__panel--${size}`,
+          { 'paper-dialog__panel--noise': noise, 'paper-dialog__panel--ruled': ruled },
+        ]"
         role="dialog"
         aria-modal="true"
         :aria-labelledby="titleId"

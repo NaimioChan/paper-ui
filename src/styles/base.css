@@ -1,7 +1,3 @@
-/* paper-ui · base
-   重置、字体栈、正文排版、焦点轮廓与动效开关。
-   不含任何组件类名。 */
-
 *,
 *::before,
 *::after {
@@ -155,7 +151,39 @@ b {
   display: none !important;
 }
 
-/* 工具类：数字位对齐、次级标注、屏幕阅读器可见 */
+/* 纸噪：绝对定位覆盖在元素上，由 .paper-noise 的宿主建立定位上下文。
+   显隐与浓度由 --noise-opacity / --noise-blend / --noise-scale 控制。 */
+.paper-noise {
+  position: relative;
+  isolation: isolate;
+}
+
+.paper-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--noise-image);
+  background-size: var(--noise-scale);
+  background-repeat: repeat;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.paper-noise--strong {
+  --noise-opacity: 0.09;
+}
+
+.paper-noise--faint {
+  --noise-opacity: 0.03;
+}
+
+.paper-noise--plain {
+  --noise-opacity: 0;
+}
+
 .paper-mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -178,6 +206,70 @@ b {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+/* 构成主义工具类：色块、条带、斜切、错位 */
+
+.paper-slab {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.paper-slab--green {
+  background-color: var(--green);
+}
+
+.paper-slab--orange {
+  background-color: var(--orange);
+}
+
+.paper-slab--gold {
+  background-color: var(--gold);
+}
+
+.paper-bar {
+  background-color: var(--ink);
+  height: var(--bar-mid);
+}
+
+.paper-bar--hair {
+  height: var(--bar-hair);
+}
+
+.paper-bar--thin {
+  height: var(--bar-thin);
+}
+
+.paper-bar--thick {
+  height: var(--bar-thick);
+}
+
+.paper-bar--mega {
+  height: var(--bar-mega);
+}
+
+.paper-bar--orange {
+  background-color: var(--orange);
+}
+
+.paper-bar--green {
+  background-color: var(--green);
+}
+
+.paper-bar--gold {
+  background-color: var(--gold);
+}
+
+.paper-slant {
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant-md)) 100%, 0 100%);
+}
+
+.paper-slant--reverse {
+  clip-path: polygon(var(--slant-md) 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.paper-offstep {
+  margin-inline-start: var(--offstep);
 }
 
 @media (prefers-reduced-motion: reduce) {

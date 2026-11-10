@@ -1,5 +1,3 @@
-/* 输入框只需补充等宽字与文本域的额外留白，主体造型来自 .paper-control。 */
-
 .paper-input--mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;

@@ -1,6 +1,3 @@
-/* 轻提示：从顶部滑入。位移在入场动画里是允许的，缩放不是。
-   纸黄底墨字，左侧两像素色条标状态。 */
-
 .paper-toast-stack {
   position: fixed;
   top: var(--toast-offset, var(--space-5));
@@ -23,7 +20,7 @@
   background-color: var(--paper);
   color: var(--ink);
   border: var(--line-hair) solid var(--ink);
-  border-left: var(--line-bold) solid var(--ink);
+  border-left: var(--bar-thin) solid var(--ink);
   pointer-events: auto;
 }
 
@@ -33,6 +30,10 @@
 
 .paper-toast--green {
   border-left-color: var(--green);
+}
+
+.paper-toast--gold {
+  border-left-color: var(--gold);
 }
 
 .paper-toast__message {
@@ -59,25 +60,17 @@
 
 .paper-toast-enter-active,
 .paper-toast-leave-active {
-  transition:
-    opacity var(--dur-fade) var(--ease-out),
-    transform var(--dur-fade) var(--ease-out);
+  transition: opacity var(--dur-fade) var(--ease-out);
 }
 
 .paper-toast-enter-from,
 .paper-toast-leave-to {
   opacity: 0;
-  transform: translateY(-8px);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .paper-toast-enter-active,
   .paper-toast-leave-active {
-    transition: opacity var(--dur-fade) var(--ease-out);
-  }
-
-  .paper-toast-enter-from,
-  .paper-toast-leave-to {
-    transform: none;
+    transition: none;
   }
 }

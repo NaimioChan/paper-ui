@@ -1,6 +1,3 @@
-/* 表格：线框风格，只用横线，不给单元格加竖线。
-   表头用深纸黄底，数字列等宽右对齐。 */
-
 .paper-table__wrap {
   width: 100%;
   overflow-x: auto;
@@ -54,6 +51,12 @@
 
 .paper-table--striped tbody tr:nth-child(even) td {
   background-color: var(--paper-deep);
+}
+
+.paper-table--ruled thead th {
+  background-color: var(--ink);
+  color: var(--paper);
+  border-bottom-color: var(--ink);
 }
 
 .paper-table__cell--start {

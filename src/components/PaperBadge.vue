@@ -6,7 +6,7 @@ withDefaults(
     max?: number
     /** 无数字时的小实心方块，用作状态点 */
     dot?: boolean
-    tone?: 'ink' | 'orange'
+    tone?: 'ink' | 'orange' | 'gold'
     /** 数值可读文本，供屏幕阅读器使用 */
     srLabel?: string
   }>(),

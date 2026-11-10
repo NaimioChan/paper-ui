@@ -1,5 +1,3 @@
-/* 版心：最大宽度 + 左右留白。栅格与色块放在里面。 */
-
 .paper-container {
   width: 100%;
   margin-inline: auto;

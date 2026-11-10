@@ -1,7 +1,6 @@
-/* 统计块：四宫格式排版，格子之间用一像素线分隔。
-   反色版本是墨底纸黄字，作为首页与书况摘要的信息块。 */
-
 .paper-stat-group {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: repeat(var(--stat-cols, 4), minmax(0, 1fr));
   background-color: var(--paper);
@@ -15,7 +14,21 @@
   border-color: var(--ink);
 }
 
+.paper-stat-group--inverse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--noise-image-dark);
+  background-size: var(--noise-scale);
+  background-repeat: repeat;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
 .paper-stat-group > .paper-stat {
+  position: relative;
+  z-index: 1;
   padding: var(--space-5);
   border-right: var(--line-hair) solid var(--line);
 }
@@ -43,7 +56,6 @@
 }
 
 .paper-stat-group--inverse .paper-stat__label {
-  color: var(--line-inverse);
   color: color-mix(in srgb, var(--paper) 72%, transparent);
 }
 
@@ -70,6 +82,10 @@
 
 .paper-stat-group--inverse .paper-stat__unit {
   color: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+
+.paper-stat-group--ruled > .paper-stat {
+  border-top: var(--bar-hair) solid var(--orange);
 }
 
 @media (max-width: 640px) {
